@@ -17,14 +17,19 @@ module.exports = {
 		path: path.resolve(__dirname, "dist"),
 	},
 	module: {
-		rules: [{ test: /\.([cm]?ts|tsx)$/, loader: "ts-loader" }],
+		rules: [
+			{ test: /\.([cm]?ts|tsx)$/, loader: "ts-loader" },
+			{
+				test: /\.css$/,
+				use: ["style-loader", "css-loader"],
+			},
+		],
 	},
 	resolve: {
 		extensions: [".ts", ".js"],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: "Caching",
 			template: "index.html",
 			minify: {
 				removeComments: true,
