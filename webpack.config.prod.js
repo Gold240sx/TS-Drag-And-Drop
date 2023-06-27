@@ -25,6 +25,11 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			title: "Caching",
+			template: "index.html",
+			minify: {
+				removeComments: true,
+				collapseWhitespace: true,
+			},
 		}),
 		new CleanPlugin.CleanWebpackPlugin(),
 	],
