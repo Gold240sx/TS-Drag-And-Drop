@@ -1,4 +1,4 @@
-import { Project, ProjectStatus } from "../models(interfaces)/project.js"
+import { Project, ProjectStatus } from "../models(interfaces)/project"
 
 type Listener<T> = (items: T[]) => void
 
@@ -35,7 +35,7 @@ export class ProjectState extends State<Project> {
 		//     people: numOfPeople
 		// };
 		this.projects.push(newProject)
-        // console.log({newProject})
+		// console.log({newProject})
 		this.updatelisteners()
 	}
 

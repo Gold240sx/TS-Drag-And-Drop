@@ -1,16 +1,16 @@
-import { Component } from "./base-component.js"
-import { autobind } from "../decorators/autobind.js"
-import { projectState } from "../state/project-state.js"
-import { validate, Validatable } from "../util/validation.js"
+import { Component } from "./base-component"
+import { autobind } from "../decorators/autobind"
+import { projectState } from "../state/project-state"
+import { validate, Validatable } from "../util/validation"
 
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
-	titleInputElement: HTMLInputElement;
-	descriptionInputElement: HTMLInputElement;
-	peopleInputElement: HTMLInputElement;
+	titleInputElement: HTMLInputElement
+	descriptionInputElement: HTMLInputElement
+	peopleInputElement: HTMLInputElement
 
 	// get access to the template and form and to the app div
 	constructor() {
-		super("project-input", "app", true, "user-input");
+		super("project-input", "app", true, "user-input")
 		//      // gives access to the template that holds the host element
 		// this.templateElement = document.querySelector("#project-input")! as HTMLTemplateElement
 		//      //reference to the element in which to render content
@@ -22,11 +22,11 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 		// this.element.id = "user-input"
 
 		//get access to diff inputs
-		this.titleInputElement = this.element.querySelector("#title") as HTMLInputElement;
-		this.descriptionInputElement = this.element.querySelector("#description") as HTMLInputElement;
-		this.peopleInputElement = this.element.querySelector("#people") as HTMLInputElement;
+		this.titleInputElement = this.element.querySelector("#title") as HTMLInputElement
+		this.descriptionInputElement = this.element.querySelector("#description") as HTMLInputElement
+		this.peopleInputElement = this.element.querySelector("#people") as HTMLInputElement
 
-		this.configure();
+		this.configure()
 	}
 
 	//  generally you wanna include the public methods before any private methods
@@ -38,13 +38,13 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 	renderContent() {}
 
 	private gatherUserInput(): [string, string, number] | void {
-		const enteredTitle = this.titleInputElement.value;
-		const enteredDescription = this.descriptionInputElement.value;
-		const enteredPeople = this.peopleInputElement.value;
+		const enteredTitle = this.titleInputElement.value
+		const enteredDescription = this.descriptionInputElement.value
+		const enteredPeople = this.peopleInputElement.value
 
 		const titleValidatable: Validatable = {
 			value: enteredTitle,
-			required: true
+			required: true,
 		}
 
 		const descriptionValidatable: Validatable = {
@@ -61,11 +61,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 			max: 10,
 		}
 
-		if (
-            !validate(titleValidatable) || 
-            !validate(descriptionValidatable) || 
-            !validate(peopleValidatable)
-        )  {
+		if (!validate(titleValidatable) || !validate(descriptionValidatable) || !validate(peopleValidatable)) {
 			alert("Invalid inputs, please try again!")
 			return
 		} else {
@@ -76,16 +72,16 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 	//add listeners for the inputs
 	@autobind
 	private submitHandler(event: Event) {
-		event.preventDefault();
+		event.preventDefault()
 		// validate inputs
 
-		const userInput = this.gatherUserInput();
+		const userInput = this.gatherUserInput()
 		if (Array.isArray(userInput)) {
-			const [title, description, people] = userInput;
-			projectState.addProject(title, description, people);
+			const [title, description, people] = userInput
+			projectState.addProject(title, description, people)
 			// console.log(title, description, people)
-			this.clearInputs();
-            // console.log(projectState)
+			this.clearInputs()
+			// console.log(projectState)
 		}
 	}
 

@@ -1,27 +1,26 @@
-import { Component } from "./base-component.js"
-import { DragTarget } from "../models(interfaces)/drag-drop.js"
-import { ProjectItem } from "./project-item.js"
-import { autobind } from "../decorators/autobind.js"
-import { Project, ProjectStatus } from "../models(interfaces)/project.js"
-import { projectState } from "../state/project-state.js"
-
+import { Component } from "./base-component"
+import { DragTarget } from "../models(interfaces)/drag-drop"
+import { ProjectItem } from "./project-item"
+import { autobind } from "../decorators/autobind"
+import { Project, ProjectStatus } from "../models(interfaces)/project"
+import { projectState } from "../state/project-state"
 
 export class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
-	assignedProjects: Project[];
+	assignedProjects: Project[]
 
 	//by using the private accessor to automatically create a property of the same name (so we can access the dynamic id's)
 	constructor(private type: "active" | "finished") {
-		super("project-list", "app", false, `${type}-projects`);
-		this.assignedProjects = [];
+		super("project-list", "app", false, `${type}-projects`)
+		this.assignedProjects = []
 
-		this.configure();
-		this.renderContent();
+		this.configure()
+		this.renderContent()
 	}
 
 	@autobind
 	dragOverHandler(event: DragEvent) {
 		if (event.dataTransfer && event.dataTransfer.types[0] === "text/plain") {
-            event.preventDefault()
+			event.preventDefault()
 			const listEl = this.element.querySelector("ul")!
 			listEl.classList.add("droppable")
 		}
@@ -30,10 +29,7 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
 	@autobind
 	dropHandler(event: DragEvent) {
 		const prjId = event.dataTransfer!.getData("text/plain")
-		projectState.moveProject(
-            prjId, 
-            this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finished
-        )
+		projectState.moveProject(prjId, this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finished)
 	}
 
 	@autobind
@@ -48,27 +44,26 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
 		this.element.addEventListener("drop", this.dropHandler)
 
 		projectState.addListener((projects: Project[]) => {
-			const relevantProjects = projects.filter( prj => {
+			const relevantProjects = projects.filter((prj) => {
 				if (this.type === "active") {
-					return prj.status === ProjectStatus.Active;
+					return prj.status === ProjectStatus.Active
 				} else {
-					return prj.status === ProjectStatus.Finished;
+					return prj.status === ProjectStatus.Finished
 				}
-			});
-			this.assignedProjects = relevantProjects;
-			this.renderProjects();
+			})
+			this.assignedProjects = relevantProjects
+			this.renderProjects()
 		})
 	}
 
 	renderContent() {
-		const listId = `${this.type}-projects-list`;
-		this.element.querySelector("ul")!.id = listId;
-		this.element.querySelector("h2")!.textContent = 
-        this.type.toUpperCase() + " PROJECTS";
+		const listId = `${this.type}-projects-list`
+		this.element.querySelector("ul")!.id = listId
+		this.element.querySelector("h2")!.textContent = this.type.toUpperCase() + " PROJECTS"
 	}
 
 	private renderProjects() {
-		const listEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
+		const listEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement
 		listEl.innerHTML = ""
 		for (const prjItem of this.assignedProjects) {
 			new ProjectItem(this.element.querySelector("ul")!.id, prjItem)

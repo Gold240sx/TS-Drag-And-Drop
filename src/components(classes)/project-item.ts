@@ -1,7 +1,7 @@
-import { Draggable } from '../models(interfaces)/drag-drop.js';
-import { Component } from './base-component.js';
-import { autobind } from "../decorators/autobind.js"
-import { Project } from '../models(interfaces)/project.js';
+import { Draggable } from "../models(interfaces)/drag-drop"
+import { Component } from "./base-component"
+import { autobind } from "../decorators/autobind"
+import { Project } from "../models(interfaces)/project"
 
 export class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable {
 	//store the project that belongs to the projectItem in the projectItem class
@@ -18,17 +18,17 @@ export class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> impl
 	constructor(hostId: string, project: Project) {
 		// single project is the template id. Host Id we want to forward.
 		super("single-project", hostId, false, project.id)
-		this.project = project;
+		this.project = project
 
-		this.configure();
-		this.renderContent();
+		this.configure()
+		this.renderContent()
 	}
 
 	@autobind
 	dragStartHandler(event: DragEvent) {
 		// tell JS which item is being transfered
-		event.dataTransfer!.setData("text/plain", this.project.id);
-		event.dataTransfer!.effectAllowed = "move"; //makes a move (holding cursor)
+		event.dataTransfer!.setData("text/plain", this.project.id)
+		event.dataTransfer!.effectAllowed = "move" //makes a move (holding cursor)
 		// we reattach the data based upon the id, because remember, we are rerendering all the content on dragend.
 	}
 
@@ -37,12 +37,12 @@ export class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> impl
 	}
 
 	configure() {
-		this.element.addEventListener("dragstart", this.dragStartHandler);
-		this.element.addEventListener("dragend", this.dragEndHandler);
+		this.element.addEventListener("dragstart", this.dragStartHandler)
+		this.element.addEventListener("dragend", this.dragEndHandler)
 	}
 	renderContent() {
-		this.element.querySelector("h2")!.textContent = this.project.title;
-		this.element.querySelector("h3")!.textContent = this.persons + " assigned.";
-		this.element.querySelector("p")!.textContent = this.project.description;
+		this.element.querySelector("h2")!.textContent = this.project.title
+		this.element.querySelector("h3")!.textContent = this.persons + " assigned."
+		this.element.querySelector("p")!.textContent = this.project.description
 	}
 }
