@@ -22,9 +22,9 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 		// this.element.id = "user-input"
 
 		//get access to diff inputs
-		this.titleInputElement = this.element.querySelector("#title") as HTMLInputElement
-		this.descriptionInputElement = this.element.querySelector("#description") as HTMLInputElement
-		this.peopleInputElement = this.element.querySelector("#people") as HTMLInputElement
+		this.titleInputElement = this.element.querySelector("#title")! as HTMLInputElement
+		this.descriptionInputElement = this.element.querySelector("#description")! as HTMLInputElement
+		this.peopleInputElement = this.element.querySelector("#people")! as HTMLInputElement
 
 		this.configure()
 	}

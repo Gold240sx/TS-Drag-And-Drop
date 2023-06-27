@@ -1,6 +1,7 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
+
 module.exports = {
 	mode: "development",
 	entry: "./src/app.ts",
@@ -17,14 +18,24 @@ module.exports = {
 		publicPath: "/dist/",
 	},
 	module: {
-		rules: [{ test: /\.([cm]?ts|tsx)$/, loader: "ts-loader" }],
+		rules: [
+			{ test: /\.([cm]?ts|tsx)$/, loader: "ts-loader" },
+			{
+				test: /\.css$/,
+				use: ["style-loader", "css-loader"],
+			},
+		],
 	},
 	resolve: {
 		extensions: [".ts", ".js"],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: "Caching",
+			template: "index.html",
+			minify: {
+				removeComments: true,
+				collapseWhitespace: true,
+			},
 		}),
 	],
 }
